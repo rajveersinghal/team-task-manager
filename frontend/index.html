@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TasklyAI | Modern Team Management</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+
+<body>
+
+    <!-- Toast -->
+    <div id="toast" class="hidden"></div>
+
+    <!-- Auth: Login -->
+    <div class="auth-wrapper animate-in" id="login-screen">
+        <div class="auth-left">
+            <div class="auth-left-content">
+                <div class="logo">
+                    <div class="logo-mark">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <div class="logo-text">Taskly<span>AI</span></div>
+                </div>
+                <div class="auth-tagline">Ship projects.<br><em>Stay aligned.</em><br>Move fast.</div>
+                <p class="auth-desc">A modern task management platform with role-based access, real-time tracking, and powerful admin controls built for high-velocity teams.</p>
+            </div>
+            <div class="feature-pills">
+                <div class="feature-pill">
+                    <div class="fp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg></div>
+                    Role-based access for Admin & Members
+                </div>
+                <div class="feature-pill">
+                    <div class="fp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg></div>
+                    Task assignment with due date tracking
+                </div>
+                <div class="feature-pill">
+                    <div class="fp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg></div>
+                    Live dashboard with overdue alerts
+                </div>
+            </div>
+        </div>
+        <div class="auth-right">
+            <div class="auth-form-box">
+                <div class="form-header">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to access your workspace</p>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input id="login-email" type="email" placeholder="you@company.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrap">
+                        <input id="login-password" type="password" placeholder="••••••••" style="padding-right:44px">
+                        <button class="pw-toggle" onclick="togglePw('login-password')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-primary" id="login-btn" onclick="doLogin()">
+                    <span class="btn-text">Sign In</span>
+                    <div class="spinner hidden"></div>
+                    <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+                <p class="auth-switch">No account? <a href="#" onclick="goto('register')">Create one free</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth: Register -->
+    <div class="auth-wrapper animate-in hidden" id="register-screen">
+        <div class="auth-left">
+            <div class="auth-left-content">
+                <div class="logo">
+                    <div class="logo-mark">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <div class="logo-text">Taskly<span>AI</span></div>
+                </div>
+                <div class="auth-tagline">Join your<br>team <em>today.</em></div>
+                <p class="auth-desc">Create your account and start collaborating with your team in minutes. Admin accounts can invite members and assign tasks.</p>
+            </div>
+            <div class="feature-pills">
+                <div class="feature-pill">
+                    <div class="fp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></div>
+                    Manage your whole team in one place
+                </div>
+                <div class="feature-pill">
+                    <div class="fp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg></div>
+                    Track progress with visual status boards
+                </div>
+            </div>
+        </div>
+        <div class="auth-right">
+            <div class="auth-form-box">
+                <div class="form-header">
+                    <h2>Create account</h2>
+                    <p>Get started in under a minute</p>
+                </div>
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input id="reg-name" type="text" placeholder="Alex Johnson">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input id="reg-email" type="email" placeholder="you@company.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrap">
+                        <input id="reg-password" type="password" placeholder="Create a strong password" style="padding-right:44px">
+                        <button class="pw-toggle" onclick="togglePw('reg-password')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-primary" id="reg-btn" onclick="doRegister()">
+                    <span class="btn-text">Create Account</span>
+                    <div class="spinner hidden"></div>
+                    <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+                <p class="auth-switch">Already have an account? <a href="#" onclick="goto('login')">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dash-layout hidden" id="dashboard-screen">
+        <aside class="sidebar" id="main-sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-mark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <span>TasklyAI</span>
+            </div>
+            <div class="nav-section-label">Workspace</div>
+            <button class="nav-item active" onclick="switchView('overview', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+                </svg>
+                <span>Overview</span>
+                <div class="nav-dot" style="margin-left:auto"></div>
+            </button>
+            <button class="nav-item" onclick="switchView('tasks', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" />
+                </svg>
+                <span>My Tasks</span>
+                <div class="nav-dot" style="margin-left:auto"></div>
+            </button>
+            <button class="nav-item hidden" id="nav-admin" onclick="switchView('admin', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>Admin Panel</span>
+                <div class="nav-dot" style="margin-left:auto"></div>
+            </button>
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="avatar" id="sb-avatar">U</div>
+                    <div class="user-meta">
+                        <div class="name" id="sb-name">User</div>
+                        <div class="role" id="sb-role">member</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="doLogout()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h2 id="view-title">Overview</h2>
+                    <p id="view-subtitle">Welcome back. Here's what needs attention.</p>
+                </div>
+                <div class="topbar-right">
+                    <div class="status-dot">System Live</div>
+                </div>
+            </div>
+
+            <div class="content-area animate-in">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card c-indigo">
+                        <span class="stat-label">Total Tasks</span>
+                        <div class="stat-number" id="stat-total">0</div>
+                        <div class="stat-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" /></svg></div>
+                    </div>
+                    <div class="stat-card c-amber">
+                        <span class="stat-label">In Progress</span>
+                        <div class="stat-number" id="stat-progress">0</div>
+                        <div class="stat-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg></div>
+                    </div>
+                    <div class="stat-card c-rose">
+                        <span class="stat-label">Overdue</span>
+                        <div class="stat-number" id="stat-overdue">0</div>
+                        <div class="stat-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg></div>
+                    </div>
+                    <div class="stat-card c-green">
+                        <span class="stat-label">Completed</span>
+                        <div class="stat-number" id="stat-done">0</div>
+                        <div class="stat-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="20 6 9 17 4 12" /></svg></div>
+                    </div>
+                </div>
+
+                <!-- Overdue Section -->
+                <div class="section" id="sec-overdue">
+                    <div class="section-head">
+                        <h3>Overdue Tasks</h3>
+                        <span class="badge badge-danger" id="overdue-count">0</span>
+                    </div>
+                    <div id="overdue-list" class="task-list">
+                        <p style="color:var(--text-muted);font-size:14px;padding:32px 0;text-align:center;">No overdue tasks. You're on track!</p>
+                    </div>
+                </div>
+
+                <!-- Tasks Section -->
+                <div class="section" id="sec-tasks">
+                    <div class="section-head">
+                        <h3>Task List</h3>
+                        <span class="badge badge-indigo" id="tasks-count">0</span>
+                    </div>
+                    <div id="tasks-list" class="task-list">
+                        <p style="color:var(--text-muted);font-size:14px;padding:32px 0;text-align:center;">No tasks assigned yet.</p>
+                    </div>
+                </div>
+
+                <!-- Admin Section -->
+                <div class="section hidden" id="sec-admin">
+                    <div class="section-head">
+                        <h3>Admin Management</h3>
+                        <span class="badge" style="background:var(--accent-dim);color:var(--accent);border:1px solid rgba(110,231,183,0.2)">Admin Only</span>
+                    </div>
+                    <div class="admin-grid">
+                        <div class="admin-action-card">
+                            <h4>Projects</h4>
+                            <p>Initialize new team projects and organize work streams.</p>
+                            <button class="btn-secondary" onclick="openModal('project')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                Create Project
+                            </button>
+                        </div>
+                        <div class="admin-action-card">
+                            <h4>Task Assignment</h4>
+                            <p>Assign new tasks to team members with due dates.</p>
+                            <button class="btn-secondary" onclick="openModal('task')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                Assign New Task
+                            </button>
+                        </div>
+                        <div class="admin-action-card">
+                            <h4>Existing Projects</h4>
+                            <div id="admin-projects" class="id-list">
+                                <p style="color:var(--text-muted);font-size:12px">Loading…</p>
+                            </div>
+                        </div>
+                        <div class="admin-action-card">
+                            <h4>All Team Members</h4>
+                            <div id="admin-users" class="id-list">
+                                <p style="color:var(--text-muted);font-size:12px">Loading…</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-head">
+                <h3 id="modal-title">New Project</h3>
+                <button class="btn-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modal-project" class="hidden">
+                <div class="input-group">
+                    <label>Project Name</label>
+                    <input id="new-proj-name" type="text" placeholder="e.g. Mobile App Redesign">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input id="new-proj-desc" type="text" placeholder="Brief project summary">
+                </div>
+                <button class="btn-primary" onclick="createProject()">
+                    <span class="btn-text">Create Project</span>
+                    <div class="spinner hidden"></div>
+                </button>
+            </div>
+            <div id="modal-task" class="hidden">
+                <div class="input-group">
+                    <label>Task Title</label>
+                    <input id="new-task-title" type="text" placeholder="What needs to be done?">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input id="new-task-desc" type="text" placeholder="Details about the task">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                    <div class="input-group">
+                        <label>Assign To</label>
+                        <select id="new-task-user">
+                            <option value="">Select Member</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Project</label>
+                        <select id="new-task-project">
+                            <option value="">Select Project</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Due Date & Time</label>
+                    <input id="new-task-date" type="datetime-local">
+                </div>
+                <button class="btn-primary" onclick="createTask()">
+                    <span class="btn-text">Assign Task</span>
+                    <div class="spinner hidden"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Logic -->
+    <script src="main.js?v=15"></script>
+</body>
+
+</html>
