@@ -38,9 +38,13 @@ def health_check():
 
 # --- Serve Frontend ---
 # In production (Railway), serve the built files from frontend/dist
-frontend_path = os.path.join(os.getcwd(), "frontend", "dist")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+frontend_path = os.path.join(BASE_DIR, "frontend", "dist")
+
+print(f"DEBUG: Checking frontend path at {frontend_path}")
 
 if os.path.exists(frontend_path):
+    print("DEBUG: Frontend dist folder found! Mounting...")
     # Serve assets (JS, CSS, images) from the dist folder
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
     
@@ -51,7 +55,7 @@ if os.path.exists(frontend_path):
             return {"error": "Not Found"}
         return FileResponse(os.path.join(frontend_path, "index.html"))
 else:
-    # Fallback for development if dist isn't built
+    print("DEBUG: Frontend dist folder NOT FOUND.")
     @app.get("/")
     def dev_warning():
         return {"message": "API is running. For frontend, run 'npm run dev' in the frontend folder."}
