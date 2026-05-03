@@ -14,8 +14,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables (only if engine exists)
+if engine:
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"ERROR: Failed to create database tables: {e}")
 
 app = FastAPI(title="TasklyAI API")
 
@@ -37,25 +41,32 @@ def health_check():
     return {"status": "healthy", "database": "connected"}
 
 # --- Serve Frontend ---
-# In production (Railway), serve the built files from frontend/dist
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 frontend_path = os.path.join(BASE_DIR, "frontend", "dist")
 
-print(f"DEBUG: Checking frontend path at {frontend_path}")
-
 if os.path.exists(frontend_path):
-    print("DEBUG: Frontend dist folder found! Mounting...")
-    # Serve assets (JS, CSS, images) from the dist folder
-    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+    # Serve static files from the assets directory
+    assets_path = os.path.join(frontend_path, "assets")
+    if os.path.exists(assets_path):
+        app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
     
-    # Catch-all for SPA routing (redirects all non-API paths to index.html)
+    # Also mount any other top-level static files if needed, 
+    # but specifically handle index.html via a catch-all
+    
     @app.get("/{fallback_path:path}")
     async def frontend_fallback(fallback_path: str):
+        # Ignore API calls
         if fallback_path.startswith("api"):
-            return {"error": "Not Found"}
+            return {"error": "Not Found", "path": fallback_path}
+            
+        # Check if the file exists in the dist folder (e.g. favicon.ico, robots.txt)
+        file_path = os.path.join(frontend_path, fallback_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+            
+        # Otherwise, serve index.html for SPA routing
         return FileResponse(os.path.join(frontend_path, "index.html"))
 else:
-    print("DEBUG: Frontend dist folder NOT FOUND.")
     @app.get("/")
     def dev_warning():
         return {"message": "API is running. For frontend, run 'npm run dev' in the frontend folder."}
