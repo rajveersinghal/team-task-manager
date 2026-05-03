@@ -25,23 +25,33 @@ async def startup_event():
             Base.metadata.create_all(bind=engine)
             print("Database tables initialized successfully.")
             
-            # Seed default admin
+            # Seed / fix default admin
             db = SessionLocal()
             try:
-                admin_exists = db.query(User).filter(User.role == "admin").first()
-                if not admin_exists:
+                # Check if admin@taskly.ai exists regardless of role
+                admin_user = db.query(User).filter(User.email == "admin@taskly.ai").first()
+                if admin_user:
+                    # Fix role if it's wrong
+                    if admin_user.role != "admin":
+                        print(f"Fixing admin role: was '{admin_user.role}', setting to 'admin'")
+                        admin_user.role = "admin"
+                        db.commit()
+                        print("Admin role fixed successfully.")
+                else:
+                    # Create the admin user fresh
                     print("Seeding default admin user...")
-                    admin_user = User(
+                    new_admin = User(
                         name="Administrator",
                         email="admin@taskly.ai",
                         password=hash_password("admin123"),
                         role="admin"
                     )
-                    db.add(admin_user)
+                    db.add(new_admin)
                     db.commit()
                     print("Admin user created: admin@taskly.ai / admin123")
             finally:
                 db.close()
+
         except Exception as e:
             print(f"ERROR: Database initialization failed: {e}")
     else:
