@@ -1,18 +1,11 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-# Import models to ensure they are registered with Base
 from app.models.user import User
 from app.models.project import Project
 from app.models.task import Task
 from app.models.project_member import ProjectMember
-
 from app.routes import auth, project, task, dashboard
-from app.utils.auth_dependency import get_current_user
-
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-import os
 
 # Create tables (only if engine exists)
 if engine:
@@ -35,6 +28,10 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(project.router, prefix="/api")
 app.include_router(task.router, prefix="/api")
 app.include_router(dashboard.router, prefix="/api")
+
+@app.get("/")
+def root():
+    return {"message": "TasklyAI API is running"}
 
 @app.get("/api/health")
 def health_check():

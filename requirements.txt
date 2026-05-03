@@ -1,7 +1,6 @@
 fastapi==0.115.5
 starlette==0.41.3
 uvicorn==0.32.1
-gunicorn==23.0.0
 pydantic==2.10.3
 pydantic_core==2.27.1
 annotated-types==0.7.0
@@ -10,7 +9,7 @@ h11==0.14.0
 click==8.1.8
 python-dotenv==1.0.1
 SQLAlchemy==2.0.36
-psycopg2-binary==2.9.10
+psycopg2==2.9.10
 passlib==1.7.4
 bcrypt==4.2.1
 python-jose==3.3.0
