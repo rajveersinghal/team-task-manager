@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 from app.database import engine, Base
 from app.models.user import User
 from app.models.project import Project
