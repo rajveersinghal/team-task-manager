@@ -10,11 +10,15 @@ from app.models.project_member import ProjectMember
 from app.routes import auth, project, task, dashboard
 
 # Create tables (only if engine exists)
-if engine:
+if engine is not None:
     try:
+        print("Initializing database tables...")
         Base.metadata.create_all(bind=engine)
+        print("Database tables initialized successfully.")
     except Exception as e:
-        print(f"ERROR: Failed to create database tables: {e}")
+        print(f"ERROR: Database initialization failed: {e}")
+else:
+    print("WARNING: Database engine not initialized. Skipping table creation.")
 
 app = FastAPI(title="TasklyAI API")
 
