@@ -9,18 +9,20 @@ from app.models.task import Task
 from app.models.project_member import ProjectMember
 from app.routes import auth, project, task, dashboard
 
-# Create tables (only if engine exists)
-if engine is not None:
-    try:
-        print("Initializing database tables...")
-        Base.metadata.create_all(bind=engine)
-        print("Database tables initialized successfully.")
-    except Exception as e:
-        print(f"ERROR: Database initialization failed: {e}")
-else:
-    print("WARNING: Database engine not initialized. Skipping table creation.")
-
 app = FastAPI(title="TasklyAI API")
+
+@app.on_event("startup")
+async def startup_event():
+    # Create tables (only if engine exists)
+    if engine is not None:
+        try:
+            print("Initializing database tables...")
+            Base.metadata.create_all(bind=engine)
+            print("Database tables initialized successfully.")
+        except Exception as e:
+            print(f"ERROR: Database initialization failed: {e}")
+    else:
+        print("WARNING: Database engine not initialized. Skipping table creation.")
 
 app.add_middleware(
     CORSMiddleware,
