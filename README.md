@@ -1,4 +1,4 @@
-# 🚀 TasklyAI | Premium Team Orchestration Suite
+# TasklyAI 
 
 TasklyAI is a high-performance, full-stack Task Management ecosystem designed for high-velocity teams. It combines a robust **FastAPI** backend with a high-fidelity **Vanilla JS** frontend to deliver a premium enterprise-grade experience with zero framework overhead.
 
