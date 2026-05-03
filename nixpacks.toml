@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["python311", "nodejs", "libpq"]
+nixPkgs = ["python3", "nodejs", "libpq", "gcc"]
 
 [phases.install]
 cmds = ["pip install -r requirements.txt", "cd frontend && npm install"]
