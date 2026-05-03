@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.database import engine, Base
