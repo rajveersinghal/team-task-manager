@@ -13,12 +13,34 @@ app = FastAPI(title="TasklyAI API")
 
 @app.on_event("startup")
 async def startup_event():
+    from sqlalchemy.orm import Session
+    from app.database import SessionLocal
+    from app.core.security import hash_password
+    
     # Create tables (only if engine exists)
     if engine is not None:
         try:
             print("Initializing database tables...")
             Base.metadata.create_all(bind=engine)
             print("Database tables initialized successfully.")
+            
+            # Seed default admin
+            db = SessionLocal()
+            try:
+                admin_exists = db.query(User).filter(User.role == "admin").first()
+                if not admin_exists:
+                    print("Seeding default admin user...")
+                    admin_user = User(
+                        name="Administrator",
+                        email="admin@taskly.ai",
+                        password=hash_password("admin123"),
+                        role="admin"
+                    )
+                    db.add(admin_user)
+                    db.commit()
+                    print("Admin user created: admin@taskly.ai / admin123")
+            finally:
+                db.close()
         except Exception as e:
             print(f"ERROR: Database initialization failed: {e}")
     else:
