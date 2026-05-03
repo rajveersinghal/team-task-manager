@@ -1,81 +1,201 @@
-# TasklyAI 
+# 🚀 Task Management System
 
-TasklyAI is a high-performance, full-stack Task Management ecosystem designed for high-velocity teams. It combines a robust **FastAPI** backend with a high-fidelity **Vanilla JS** frontend to deliver a premium enterprise-grade experience with zero framework overhead.
-
-![Railway Deployment](https://img.shields.io/badge/Deploy-Railway-blueviolet?style=for-the-badge&logo=railway)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Modern CSS](https://img.shields.io/badge/UI-Midnight_Luxe-indigo?style=for-the-badge)
+A full-stack **Role-Based Task Management Application** built using **FastAPI**, **PostgreSQL**, and **Vanilla JavaScript**, designed to simulate real-world team collaboration workflows.
 
 ---
 
-## ✨ Executive Highlights
+## 🌐 Live Demo
 
-TasklyAI isn't just a todo list—it's a technical demonstration of modern web engineering:
+👉 **Frontend (Vercel):**
+https://team-task-manager-five-puce.vercel.app/
 
-*   **📊 Intelligence Dashboard**: Real-time project health metrics with automated overdue detection and rose-red alerts.
-*   **🛡️ Enterprise RBAC**: Strict Role-Based Access Control. Admins orchestrate; Members execute.
-*   **🔐 Industrial-Grade Security**: JWT session management with SHA-256 hashing and Pydantic v2 data validation.
-*   **🌑 Midnight Luxe Design**: A custom-built CSS design system featuring glassmorphism, fluid animations, and a mobile-first grid.
-
----
-
-## 🛠️ Technical Architecture
-
-| Layer | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Engine** | Python 3.10 / FastAPI | Asynchronous performance & type-safe development. |
-| **Logic** | ES6+ Vanilla JavaScript | Maximum performance with zero heavy-framework overhead. |
-| **Design** | CSS3 Custom Tokens | Full control over the "Midnight Luxe" aesthetic. |
-| **Storage** | PostgreSQL / SQLAlchemy | Relational integrity & production-grade scalability. |
-| **Build** | Vite + Nixpacks | Lightning-fast builds & seamless Railway integration. |
+👉 **API Docs (FastAPI Swagger):**
+`/docs` endpoint on backend
 
 ---
 
-## 📂 Project Structure
+## ✨ Features
+
+### 🔐 Authentication & Security
+
+* User Signup & Login (JWT-based authentication)
+* Password hashing using secure algorithms
+* Protected API routes
+
+---
+
+### 🛡️ Role-Based Access Control (RBAC)
+
+* **Admin**
+
+  * Create projects
+  * Assign tasks
+  * Manage team members
+* **Member**
+
+  * View assigned tasks
+  * Update task status
+
+---
+
+### 📊 Dashboard & Insights
+
+* Total Tasks
+* In Progress Tasks
+* Completed Tasks
+* Overdue Tasks (auto-detected)
+
+---
+
+### 📁 Project & Task Management
+
+* Create and manage projects
+* Assign tasks to specific users
+* Track task status:
+
+  * Todo
+  * In Progress
+  * Done
+
+---
+
+### ⚡ Real-Time Updates
+
+* Dashboard updates dynamically after task changes
+* Status changes reflect instantly
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer                     | Technology                    |
+| ------------------------- | ----------------------------- |
+| **Backend**               | FastAPI (Python)              |
+| **Database**              | PostgreSQL (Railway)          |
+| **ORM**                   | SQLAlchemy                    |
+| **Frontend**              | HTML, CSS, Vanilla JavaScript |
+| **Authentication**        | JWT                           |
+| **Deployment (Frontend)** | Vercel                        |
+| **Database Hosting**      | Railway                       |
+
+---
+
+## ⚙️ Architecture
+
 ```text
-├── app/
-│   ├── core/           # Security & Auth Logic
-│   ├── models/         # SQLAlchemy Database Entities
-│   ├── routes/         # REST API Controllers
-│   ├── schemas/        # Pydantic Input/Output Validators
-│   └── main.py         # Entry Point & Frontend Mounter
-├── frontend/
-│   ├── main.js         # Core Application Driver
-│   ├── style.css       # Custom Design Tokens & Tokens
-│   └── index.html      # SPA Entry Point
-└── nixpacks.toml       # Railway Unified Build Config
+Frontend (Vercel)
+        ↓
+FastAPI Backend (REST APIs)
+        ↓
+PostgreSQL Database (Railway)
 ```
 
 ---
 
-## 🚢 Direct Deployment to Railway
+## 📂 Project Structure
 
-This project is pre-configured for a **unified deployment** (Backend + Frontend in one service).
+```text
+task-manager/
+│
+├── app/
+│   ├── core/        # Auth & security
+│   ├── models/      # Database models
+│   ├── schemas/     # Pydantic validation
+│   ├── routes/      # API endpoints
+│   ├── utils/       # Dependencies & helpers
+│   └── main.py      # Entry point
+│
+├── frontend/
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── admin.html
+│   ├── main.js
+│   └── style.css
+│
+├── requirements.txt
+└── README.md
+```
 
-### Step 1: Connect your Repository
-1. Log in to [Railway.app](https://railway.app/).
-2. Click **New Project** > **Deploy from GitHub**.
-3. Select this repository.
+---
 
-### Step 2: Configure Environment Variables
-In the **Variables** tab of your service, add the following (copy from your existing Railway DB if needed):
-- `DATABASE_URL`: `postgresql://...` (Your Railway DB URL)
-- `SECRET_KEY`: `your-random-string-here`
-- `ALGORITHM`: `HS256`
-- `ACCESS_TOKEN_EXPIRE_MINUTES`: `60`
+## 🔄 Application Flow
 
-### Step 3: Automatic Build & Launch
-Railway will automatically detect the `nixpacks.toml` file and perform the following:
-1. Initialize a **Python** & **Node.js** environment.
-2. Build the frontend into a production-ready `dist/` folder.
-3. Start the FastAPI server to serve both the **API** and the **Frontend** assets.
+### 👨‍💼 Admin Flow
+
+1. Login as admin
+2. Create project
+3. Add members
+4. Assign tasks
 
 ---
 
-## 📋 API Documentation
-Explore the technical interface once deployed:
-- **Interactive Swagger**: `https://your-app-url.up.railway.app/docs`
-- **Clean ReDoc**: `https://your-app-url.up.railway.app/redoc`
+### 👨‍💻 Member Flow
+
+1. Login as member
+2. View assigned tasks
+3. Update task status
+4. Dashboard updates automatically
 
 ---
-*Created with a focus on **Performance**, **Security**, and **Visual Excellence**.*
+
+## 🧪 API Endpoints (Sample)
+
+| Method | Endpoint              | Description    |
+| ------ | --------------------- | -------------- |
+| POST   | `/auth/register`      | Register user  |
+| POST   | `/auth/login`         | Login          |
+| POST   | `/projects/`          | Create project |
+| POST   | `/tasks/`             | Create task    |
+| PUT    | `/tasks/{id}`         | Update task    |
+| GET    | `/dashboard/my-tasks` | Get user tasks |
+
+---
+
+## 🚀 Deployment Notes
+
+* **Frontend deployed on Vercel** for fast and reliable hosting
+* **PostgreSQL database hosted on Railway**
+* Backend APIs connected to Railway DB
+
+> Note: Due to limitations in Railway free tier deployment, frontend is hosted separately on Vercel.
+
+---
+
+## 🎯 Key Highlights
+
+* Clean backend architecture (FastAPI + SQLAlchemy)
+* Proper database relationships
+* Role-based authorization implemented correctly
+* Real-time dashboard calculations
+* Fully working end-to-end system
+
+---
+
+## 📌 Future Improvements
+
+* Add notifications system
+* Add task priority levels
+* Add file attachments
+* Add AI-based task suggestions
+
+---
+
+## 👨‍💻 Author
+
+**Rajveer Singhal**
+Aspiring Data Scientist & Software Engineer
+
+---
+
+## 🏁 Conclusion
+
+This project demonstrates:
+
+* Full-stack development skills
+* API design and integration
+* Authentication & authorization
+* Real-world application logic
+
+---
+
+⭐ If you like this project, feel free to star the repo!
